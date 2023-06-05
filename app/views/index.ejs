@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- One form -->
+    <!-- 
+        initial stage
+        one input field for long url
+        options for customization??? (input field)
+        qrcode switch(on or off)   
+        shorten button (takes it to after clicking stage)  
+    -->
+
+    <!-- 
+        after clicking
+        one input field for long url
+        second input field for short url (immutable)
+        copy button at the edge
+        qrcode button (should bring out modal of the qrcode)
+        shorten button (takes user back to initial stage)
+    -->
+
+    <h1>URL Shortener</h1>
+    <form action="/scissor" method="POST">
+        <!-- CHANGE TYPE TO URL -->
+        <input required type="text" name="longUrl" id="longUrl">
+        <input type="submit" value="slice" id="">
+    </form>
+
+    <!-- Table that contains long url, short url, clicks, qrcode, and analytics(clicks) -->
+    <table>
+        <thead>
+            <tr>
+                <td>Long URL</td>
+                <td>Short URL</td>
+                <td>QR Code</td>
+                <td>Clicks</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="www.google.com">longUrl</a></td>
+                <td><a href="www.google.com">shortUrl</a></td>
+                <td><a href="www.google.com">shortUrl</a></td>
+                <td>Clicks</td>
+            </tr>
+        </tbody>
+        <p>
+            <%= for(let i = 0; i < )
+        </p>
+    </table>
+</body>
+</html>
