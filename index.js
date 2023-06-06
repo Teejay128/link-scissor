@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/scissor', scissorRouter)
 
 app.get('/', (req, res) => {
-    res.render("index")
+    res.redirect("/scissor")
 })
 
 app.listen(port, () => {

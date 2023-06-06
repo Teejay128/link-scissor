@@ -4,9 +4,7 @@ const shortid = require('shortid')
 exports.scissorLink = async (req, res) => {
     try {
         const urls = await ShortUrl.find({})
-        console.log(urls)
-        // add the urls to a table in the views...
-        res.render('index', { urls })
+        res.render('index', { urls: urls })
     } catch (error) {
         console.error("An error occured while fetching urls:", error)
     }

@@ -8,4 +8,6 @@ router
     .get(scissorController.scissorLink)
     .post(scissorController.newScissor)
 
+router
+    .route('/:shortUrl')
 module.exports = router

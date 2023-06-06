@@ -12,7 +12,7 @@
     <!-- 
         initial stage
         one input field for long url
-        options for customization??? (input field)
+        second input field for customizations
         qrcode switch(on or off)   
         shorten button (takes it to after clicking stage)  
     -->
@@ -30,6 +30,7 @@
     <form action="/scissor" method="POST">
         <!-- CHANGE TYPE TO URL -->
         <input required type="text" name="longUrl" id="longUrl">
+        <input type="text" name="custom" id="custom">
         <input type="submit" value="slice" id="">
     </form>
 
@@ -44,16 +45,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><a href="www.google.com">longUrl</a></td>
-                <td><a href="www.google.com">shortUrl</a></td>
-                <td><a href="www.google.com">shortUrl</a></td>
-                <td>Clicks</td>
-            </tr>
+            <% urls.forEach((url) => { %>
+                <tr>
+                    <td><a href=<%= url.longUrl %>><%= url.longUrl %></a></td>
+                    <td><a href=<%= url.shortUrl %>><%= url.shortUrl %></a></td>
+                    <td><a href=<%= url.shortUrl %>>QR Code</a></td>
+                    <td><%= url.clicks %></td>
+                </tr>
+            <% }) %>
         </tbody>
-        <p>
-            <%= for(let i = 0; i < )
-        </p>
     </table>
 </body>
 </html>

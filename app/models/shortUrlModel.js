@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const shortid = require('shortid')
 const Schema = mongoose.Schema
 
 const shortUrlSchema = new Schema({
@@ -19,11 +20,25 @@ const shortUrlSchema = new Schema({
         type: Number,
         default: 0
     },
+    custom: {
+        type: String,
+        default: "scissor",
+        // Add something like validation
+        // Less than 10 words
+        // No spaces
+        // Characters?
+    },
+    urlId: {
+        type: String,
+        default: shortid.generate()
+    },
     createdAt: {
         type: Date,
         default: Date.now
     }
 })
+
+// Create prehook to join custom and urlId fields to create shortUrl
 
 const ShortUrl = mongoose.model('ShortUrl', shortUrlSchema)
 
