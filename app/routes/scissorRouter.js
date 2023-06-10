@@ -9,6 +9,8 @@ router
     .post(scissorController.newScissor)
 
 router
-    .route('/:shortUrl')
+    .route('/:urlCode')
     .get(scissorController.click)
+
+    
 module.exports = router

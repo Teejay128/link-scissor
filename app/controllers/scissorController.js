@@ -1,28 +1,34 @@
 const ShortUrl = require('../models/shortUrlModel')
+const catchAsync = require('../utils/catchAsync')
 const shortid = require('shortid')
 
-exports.scissorLink = async (req, res) => {
+exports.scissorLink = catchAsync(async (req, res) => {
     try {
         const urls = await ShortUrl.find({})
         res.render('index', { urls: urls })
     } catch (error) {
         console.error("An error occured while fetching urls:", error)
     }
-}
+})
 
-exports.newScissor = async (req, res) => {
+exports.newScissor = catchAsync(async (req, res) => {
     try {
         const { longUrl, custom } = req.body
         let urlCode = shortid.generate()
         // Custom can only be maximum of 8
         if(custom) {
-            console.log(urlCode)
-            console.log(custom.length)
-            console.log(urlCode.slice(custom.length - 9))
             urlCode = custom + urlCode.slice(custom.length - 9)
-            console.log(urlCode)
         }
         const shortUrl = `scissor/${urlCode}`
+
+        const check = await ShortUrl.find({ urlCode })
+        if(check.length != 0){
+            return res.json({
+                status: "error",
+                msg: "that custom url already exists",
+                data: check
+            })
+        }
 
         const newScissor = await ShortUrl.create({
             longUrl,
@@ -30,19 +36,26 @@ exports.newScissor = async (req, res) => {
             urlCode
         })
 
-        // console.log(newScissor)
-
-
         return res.redirect('/')
     } catch (error) {
         console.error("An error occured while shortening url:", error)
     }
-}
+})
 
-exports.click = async (req, res) => {
+exports.click = catchAsync(async (req, res) => {
     try {
-        // Use req.params to do whatever
+        const urlCode = req.params.urlCode
+        const url = await ShortUrl.findOne({ urlCode })
+
+        url.clicks++
+        url.save()
+
+        return res.json({
+            status: "success",
+            msg: "shortened url was found",
+            data: url
+        })
     } catch (error) {
         console.error("An error occured while updating clicks", error)
     }
-}
+})
