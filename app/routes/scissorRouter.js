@@ -10,4 +10,5 @@ router
 
 router
     .route('/:shortUrl')
+    .get(scissorController.click)
 module.exports = router

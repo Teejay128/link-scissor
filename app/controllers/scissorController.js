@@ -12,23 +12,37 @@ exports.scissorLink = async (req, res) => {
 
 exports.newScissor = async (req, res) => {
     try {
-        let { longUrl, custom } = req.body
-        if(!custom) {
-            custom = "scissor"
+        const { longUrl, custom } = req.body
+        let urlCode = shortid.generate()
+        // Custom can only be maximum of 8
+        if(custom) {
+            console.log(urlCode)
+            console.log(custom.length)
+            console.log(urlCode.slice(custom.length - 9))
+            urlCode = custom + urlCode.slice(custom.length - 9)
+            console.log(urlCode)
         }
-        const shortUrl = new ShortUrl({
+        const shortUrl = `scissor/${urlCode}`
+
+        const newScissor = await ShortUrl.create({
             longUrl,
-            shortUrl: `http://${custom}/${shortid.generate()}`,
+            shortUrl,
+            urlCode
         })
-    
-        await shortUrl.save()
-        // return res.json({
-        //     status: "success",
-        //     message: `${longUrl} was shortened`,
-        //     data: shortUrl
-        // })
+
+        // console.log(newScissor)
+
+
         return res.redirect('/')
     } catch (error) {
         console.error("An error occured while shortening url:", error)
+    }
+}
+
+exports.click = async (req, res) => {
+    try {
+        // Use req.params to do whatever
+    } catch (error) {
+        console.error("An error occured while updating clicks", error)
     }
 }
