@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Shortener</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
     <!-- One form -->
@@ -25,35 +26,72 @@
         qrcode button (should bring out modal of the qrcode)
         shorten button (takes user back to initial stage)
     -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Form Section -->
+                <div class="card mb-4">
+                    <div class="card-title">
+                        <h2 class="card-title">Shorten URL</h2>
+                        <form action="/scissor" method="POST">
+                            <div class="mb-3">
+                                <label for="longUrl" class="form-label">Long URL</label>
+                                <!-- Change type to text, or do some validation in the backend -->
+                                <input type="text" class="form-control" name="longUrl" id="longUrl" placeholder="Enter the long URL" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="customCode" class="form-label">Custom Code (8 digits max)</label>
+                                <input type="text" class="form-control" name="customCode" id="customCode" placeholder="Enter your custom code">
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" class="form-check-input" id="qrCode">
+                                    <label for="qrCode" class="form-check-label">Generate QrCode</label>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Shorten Link">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Table Section -->
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">Link History</h2>
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Long URL</th>
+                                    <th scope="col">Short URL</th>
+                                    <th scope="col">Clicks</th>
+                                    <th scope="col">QR Code</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>https://example.com/long-url-1</td>
+                                    <td>https://short.ly/abcd1234</td>
+                                    <td>10</td>
+                                    <td><img src="qrcode.png" alt="QR Code" class="img-thumbnail"></td>
+                                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                                </tr>
+                                <tr>
+                                    <td>https://example.com/long-url-2</td>
+                                    <td>https://short.ly/efgh5678</td>
+                                    <td>5</td>
+                                    <td><img src="qrcode.png" alt="QR Code" class="img-thumbnail"></td>
+                                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h1>URL Shortener</h1>
-    <form action="/scissor" method="POST">
-        <!-- CHANGE TYPE TO URL -->
-        <input required type="text" name="longUrl" id="longUrl">
-        <input type="text" name="custom" id="custom">
-        <input type="submit" value="slice" id="">
-    </form>
-
-    <!-- Table that contains long url, short url, clicks, qrcode, and analytics(clicks) -->
-    <table>
-        <thead>
-            <tr>
-                <td>Long URL</td>
-                <td>Short URL</td>
-                <td>QR Code</td>
-                <td>Clicks</td>
-            </tr>
-        </thead>
-        <tbody>
-            <% urls.forEach((url) => { %>
-                <tr>
-                    <td><a href=<%= url.longUrl %>><%= url.longUrl %></a></td>
-                    <td><a href=<%= url.shortUrl %>><%= url.shortUrl %></a></td>
-                    <td><a href=<%= url.shortUrl %>>QR Code</a></td>
-                    <td><%= url.clicks %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
+    <script src="/js/main.js"></script>
 </body>
 </html>
