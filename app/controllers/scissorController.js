@@ -46,15 +46,15 @@ exports.click = catchAsync(async (req, res) => {
     try {
         const urlCode = req.params.urlCode
         const url = await ShortUrl.findOne({ urlCode })
+        if(!url) {
+            // Also throw an error stuff
+            return res.redirect('/scissor')
+        }
 
         url.clicks++
         url.save()
 
-        return res.json({
-            status: "success",
-            msg: "shortened url was found",
-            data: url
-        })
+        res.redirect(url.longUrl)
     } catch (error) {
         console.error("An error occured while updating clicks", error)
     }
