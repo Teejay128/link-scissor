@@ -22,16 +22,15 @@
         after clicking
         one input field for long url
         second input field for short url (immutable)
-        copy button at the edge
         qrcode button (should bring out modal of the qrcode)
         shorten button (takes user back to initial stage)
     -->
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <!-- Form Section -->
                 <div class="card mb-4">
-                    <div class="card-title">
+                    <div class="card-body">
                         <h2 class="card-title">Shorten URL</h2>
                         <form action="/scissor" method="POST">
                             <div class="mb-3">
@@ -54,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <!-- Table Section -->
                 <div class="card">
                     <div class="card-body">
@@ -70,20 +69,19 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Make the links appear in reverse, so newly added appears ontop -->
+                                <% urls.forEach((url) => { %>
                                 <tr>
-                                    <td>https://example.com/long-url-1</td>
-                                    <td>https://short.ly/abcd1234</td>
-                                    <td>10</td>
-                                    <td><img src="qrcode.png" alt="QR Code" class="img-thumbnail"></td>
-                                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
+                                    <td><%= url.longUrl %></td>
+                                    <td><%= url.shortUrl %></td>
+                                    <td><%= url.clicks %></td>
+                                    <td><img src="/assets/qrCode.png" alt="QR Code" class="img-thumbnail"></td>
+                                    <td>
+                                        <button class="btn btn-light btn-sm">Copy</button>
+                                        <button class="btn btn-danger btn-sm">Scrap</button>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>https://example.com/long-url-2</td>
-                                    <td>https://short.ly/efgh5678</td>
-                                    <td>5</td>
-                                    <td><img src="qrcode.png" alt="QR Code" class="img-thumbnail"></td>
-                                    <td><button class="btn btn-danger btn-sm">Delete</button></td>
-                                </tr>
+                                <% }) %>
                             </tbody>
                         </table>
                     </div>
@@ -91,6 +89,26 @@
             </div>
         </div>
     </div>
+
+    <div class="modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Your QR Code</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Big image of qr code goes here <p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save Image</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <script src="/js/main.js"></script>
 </body>
