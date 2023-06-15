@@ -18,13 +18,6 @@
         shorten button (takes it to after clicking stage)  
     -->
 
-    <!-- 
-        after clicking
-        one input field for long url
-        second input field for short url (immutable)
-        qrcode button (should bring out modal of the qrcode)
-        shorten button (takes user back to initial stage)
-    -->
     <div class="container">
         <div class="row">
             <div class="col-md-4">
@@ -41,12 +34,6 @@
                             <div class="mb-3">
                                 <label for="customCode" class="form-label">Custom Code (8 digits max)</label>
                                 <input type="text" class="form-control" name="customCode" id="customCode" placeholder="Enter your custom code">
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input" id="qrCode">
-                                    <label for="qrCode" class="form-check-label">Generate QrCode</label>
-                                </div>
                             </div>
                             <input type="submit" class="btn btn-primary" value="Shorten Link">
                         </form>
@@ -69,16 +56,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Make the links appear in reverse, so newly added appears ontop -->
-                                <% urls.forEach((url) => { %>
-                                <tr>
+                                <% urls.reverse().forEach((url) => { %>
+                                <tr id="<%= url.urlCode %>">
                                     <td><%= url.longUrl %></td>
                                     <td><%= url.shortUrl %></td>
                                     <td><%= url.clicks %></td>
-                                    <td><img src="/assets/qrCode.png" alt="QR Code" class="img-thumbnail"></td>
+                                    <td><img src="/assets/qrCode.png" alt="QR Code" id="qrBtn" class="img-thumbnail"></td>
                                     <td>
-                                        <button class="btn btn-light btn-sm">Copy</button>
-                                        <button class="btn btn-danger btn-sm">Scrap</button>
+                                        <button class="btn btn-light btn-sm" id="copyBtn">Copy</button>
+                                        <button class="btn btn-danger btn-sm" id="delBtn">Delete</button>
                                     </td>
                                 </tr>
                                 <% }) %>
@@ -90,25 +76,19 @@
         </div>
     </div>
 
-    <div class="modal">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Your QR Code</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Toast Notification -->
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
                 <span aria-hidden="true"></span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Big image of qr code goes here <p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save Image</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
+            </button>
         </div>
-      </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
 
     <script src="/js/main.js"></script>
 </body>

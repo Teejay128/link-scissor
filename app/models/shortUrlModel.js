@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const shortUrlSchema = new Schema({
     longUrl: {
+        // Add validation (must be a valid url)
         type: String,
         required: true,
     },
@@ -20,6 +21,7 @@ const shortUrlSchema = new Schema({
         default: 0
     },
     urlCode: {
+        // Add validation (must not be more than 8 digits)
         type: String,
         required: true
     },

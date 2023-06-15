@@ -13,6 +13,7 @@ exports.scissorLink = catchAsync(async (req, res) => {
 
 exports.newScissor = catchAsync(async (req, res) => {
     try {
+        console.log(req.body)
         const { longUrl, custom } = req.body
         let urlCode = shortid.generate()
         // Custom can only be maximum of 8
@@ -42,6 +43,15 @@ exports.newScissor = catchAsync(async (req, res) => {
     }
 })
 
+exports.scrapScissor = catchAsync(async (req, res) => {
+    try {
+        // Chech the urlCode from the request.body
+        // Remove short url from database
+        // Display toast notification?
+    } catch (error) {
+        console.error("An error occured while updating clicks", error)
+    }
+})
 exports.click = catchAsync(async (req, res) => {
     try {
         const urlCode = req.params.urlCode
