@@ -1,26 +1,28 @@
-function copyLink() {
-    // Function to copy the link to clipboard
+document.querySelectorAll('#copyBtn').forEach((btn) => {
+    let id = btn.parentElement.parentElement.id
+    btn.addEventListener('click', () => copyLink(id))
 
-    document.querySelectorAll('#copyBtn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            console.log(btn.parentElement.parentElement.id)
-            console.log("You copied the link!")
-        })
-    })
+})
+
+document.querySelectorAll('#delBtn').forEach((btn) => {
+    let id = btn.parentElement.parentElement.id
+    btn.addEventListener('click', () => deleteLink(id))
+})
+
+function copyLink(id) {
+    // Function to copy the link to clipboard
+    console.log(id)
 
 }
 
-function deleteLink() {
+function deleteLink(id) {
     // Function to delete the link from the site and the database
-
-    document.querySelectorAll('#delBtn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            console.log(btn.parentElement.parentElement.id)
-            console.log("You deleted the link")
-
-            // Make a delete request with the url id as the body or something
-            
-        })
+    fetch(`/scissor/${id}`, { method: "DELETE" })
+    .then(() => {
+        console.log("link was deleted")
+    })
+    .catch((error) => {
+        console.log("an error occured")
     })
 
 }
@@ -60,8 +62,3 @@ function showQRCode() {
 const showToast = () => {
     // Show toast notification for basic actions
 }
-
-copyLink()
-deleteLink()
-showQRCode()
-showToast()

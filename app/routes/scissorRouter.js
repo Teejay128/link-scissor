@@ -10,7 +10,8 @@ router
 
 router
     .route('/:urlCode')
-    .get(scissorController.click)
+    .get(scissorController.clickScissor)
+    .delete(scissorController.deleteScissor)
 
     
 module.exports = router

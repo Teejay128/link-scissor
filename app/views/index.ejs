@@ -56,18 +56,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% urls.reverse().forEach((url) => { %>
-                                <tr id="<%= url.urlCode %>">
-                                    <td><%= url.longUrl %></td>
-                                    <td><%= url.shortUrl %></td>
-                                    <td><%= url.clicks %></td>
-                                    <td><img src="/assets/qrCode.png" alt="QR Code" id="qrBtn" class="img-thumbnail"></td>
-                                    <td>
-                                        <button class="btn btn-light btn-sm" id="copyBtn">Copy</button>
-                                        <button class="btn btn-danger btn-sm" id="delBtn">Delete</button>
-                                    </td>
-                                </tr>
-                                <% }) %>
+                                <% if(urls.length) { %>
+                                    <% urls.reverse().forEach((url) => { %>
+                                        <tr id="<%= url.urlCode %>">
+                                            <td><%= url.longUrl %></td>
+                                            <td><%= url.shortUrl %></td>
+                                            <td><%= url.clicks %></td>
+                                            <td><img src="/assets/qrCode.png" alt="QR Code" id="qrBtn" class="img-thumbnail"></td>
+                                            <td>
+                                                <button class="btn btn-light btn-sm" id="copyBtn">Copy</button>
+                                                <button class="btn btn-danger btn-sm" id="delBtn">Delete</button>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="5"><h3>There are no links in your history</h3></td>
+                                    </tr>
+                                <% } %>
                             </tbody>
                         </table>
                     </div>
