@@ -48,6 +48,7 @@ exports.deleteScissor = catchAsync(async (req, res) => {
         const urlCode = req.params.urlCode
         const url = await ShortUrl.findOneAndDelete({ urlCode })
 
+        // return res.redirect('/')
         return res.json({
             status: "Success",
             msg: `Url with code "${urlCode}" was deleted`,

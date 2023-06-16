@@ -29,7 +29,7 @@
                             <div class="mb-3">
                                 <label for="longUrl" class="form-label">Long URL</label>
                                 <!-- Change type to text, or do some validation in the backend -->
-                                <input type="text" class="form-control" name="longUrl" id="longUrl" placeholder="Enter the long URL" required>
+                                <input type="text" class="form-control" name="longUrl" id="longUrl" placeholder="Enter the long URL" required autofocus>
                             </div>
                             <div class="mb-3">
                                 <label for="customCode" class="form-label">Custom Code (8 digits max)</label>
@@ -52,7 +52,7 @@
                                     <th scope="col">Short URL</th>
                                     <th scope="col">Clicks</th>
                                     <th scope="col">QR Code</th>
-                                    <th scope="col">Delete</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,7 +71,7 @@
                                     <% }) %>
                                 <% } else { %>
                                     <tr>
-                                        <td colspan="5"><h3>There are no links in your history</h3></td>
+                                        <td colspan="5"><p>There are no links in your history</p></td>
                                     </tr>
                                 <% } %>
                             </tbody>

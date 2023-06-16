@@ -11,7 +11,14 @@ document.querySelectorAll('#delBtn').forEach((btn) => {
 
 function copyLink(id) {
     // Function to copy the link to clipboard
-    console.log(id)
+    const url = `scissor/${id}`
+    navigator.clipboard.writeText(url)
+    .then(() => {
+        console.log("Link copied to clipboard")
+    })
+    .catch((error) => {
+        console.log("Copy failed: ", error)
+    })
 
 }
 
@@ -19,6 +26,9 @@ function deleteLink(id) {
     // Function to delete the link from the site and the database
     fetch(`/scissor/${id}`, { method: "DELETE" })
     .then(() => {
+        // Reloading is not efficient
+        // I need to be able to do that res.redirect whatever
+        location.reload()
         console.log("link was deleted")
     })
     .catch((error) => {
