@@ -5,15 +5,16 @@ document.querySelectorAll('#copyBtn').forEach((btn) => {
 })
 
 document.querySelectorAll('#delBtn').forEach((btn) => {
-    let id = btn.parentElement.parentElement.id
-    btn.addEventListener('click', () => deleteLink(id))
+    let element = btn.parentElement.parentElement
+    btn.addEventListener('click', () => deleteLink(element))
 })
 
 function copyLink(id) {
     // Function to copy the link to clipboard
-    const url = `scissor/${id}`
+    const url = `https://scissor/${id}`
     navigator.clipboard.writeText(url)
     .then(() => {
+        showToast(`"${url}" was copied to clipboard`)
         console.log("Link copied to clipboard")
     })
     .catch((error) => {
@@ -22,19 +23,19 @@ function copyLink(id) {
 
 }
 
-function deleteLink(id) {
+function deleteLink(element) {
     // Function to delete the link from the site and the database
-    fetch(`/scissor/${id}`, { method: "DELETE" })
-    .then(() => {
-        // Reloading is not efficient
-        // I need to be able to do that res.redirect whatever
-        location.reload()
-        console.log("link was deleted")
+    const id = element.id
+    fetch(`/${id}`, { method: "DELETE" })
+    .then((response) => {
+        // Handle the response as a toast notification
+        // console.log(response)
+        console.log("Link has been deleted")
+        element.style.display = "none"
     })
     .catch((error) => {
-        console.log("an error occured")
+        console.log("An error occured: ", error)
     })
-
 }
 
 
@@ -69,6 +70,16 @@ function showQRCode() {
     // </div>
 }
 
-const showToast = () => {
+const showToast = (msg) => {
+    const toast = document.querySelector('.toast')
+    const toastBody = document.querySelector('.toast-body')
+    toast.style.display = "block"
+    toastBody.textContent = msg
+
+    setTimeout(() => {
+        toast.style.display = "none"
+        toastBody.textContent =""
+    }, 3000)
+    console.log("toasted")
     // Show toast notification for basic actions
 }

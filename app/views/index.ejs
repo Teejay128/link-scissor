@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Shortener</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdeliver.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
@@ -25,11 +26,11 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h2 class="card-title">Shorten URL</h2>
-                        <form action="/scissor" method="POST">
+                        <form action="/" method="POST">
                             <div class="mb-3">
                                 <label for="longUrl" class="form-label">Long URL</label>
                                 <!-- Change type to text, or do some validation in the backend -->
-                                <input type="text" class="form-control" name="longUrl" id="longUrl" placeholder="Enter the long URL" required autofocus>
+                                <input type="url" class="form-control" name="longUrl" id="longUrl" placeholder="Enter the long URL" required autofocus>
                             </div>
                             <div class="mb-3">
                                 <label for="customCode" class="form-label">Custom Code (8 digits max)</label>
@@ -85,15 +86,12 @@
     <!-- Toast Notification -->
     <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-            <strong class="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
+            <strong class="me-auto">Scissor</strong>
             <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
                 <span aria-hidden="true"></span>
             </button>
         </div>
-        <div class="toast-body">
-            Hello, world! This is a toast message.
-        </div>
+        <div class="toast-body"></div>
     </div>
 
     <script src="/js/main.js"></script>

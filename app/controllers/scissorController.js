@@ -15,11 +15,12 @@ exports.scissorLink = catchAsync(async (req, res) => {
 exports.newScissor = catchAsync(async (req, res) => {
     try {
         const { longUrl, customCode } = req.body
-        let urlCode = shortid.generate()
-        // Custom can only be maximum of 8
         if(customCode) {
-            urlCode = customCode + urlCode.slice(customCode.length - 9)
+            urlCode = customCode
+        } else {
+            urlCode = shortid.generate()
         }
+
         const shortUrl = `scissor/${urlCode}`
 
         const check = await ShortUrl.find({ urlCode })
@@ -43,24 +44,6 @@ exports.newScissor = catchAsync(async (req, res) => {
     }
 })
 
-exports.deleteScissor = catchAsync(async (req, res) => {
-    try {
-        const urlCode = req.params.urlCode
-        const url = await ShortUrl.findOneAndDelete({ urlCode })
-
-        // return res.redirect('/')
-        return res.json({
-            status: "Success",
-            msg: `Url with code "${urlCode}" was deleted`,
-            data: url
-        })
-        // Display toast notification?
-        
-    } catch (error) {
-        console.error("An error occured while deleting the link", error)
-    }
-})
-
 exports.clickScissor = catchAsync(async (req, res) => {
     try {
         const urlCode = req.params.urlCode
@@ -76,5 +59,24 @@ exports.clickScissor = catchAsync(async (req, res) => {
         res.redirect(url.longUrl)
     } catch (error) {
         console.error("An error occured while updating clicks", error)
+    }
+})
+
+exports.deleteScissor = catchAsync(async (req, res) => {
+    try {
+        const urlCode = req.params.urlCode
+        const url = await ShortUrl.findOneAndDelete({ urlCode })
+        // console.log(url)
+
+        // return res.redirect('/')
+        return res.json({
+            status: "Success",
+            msg: `Url with code "${urlCode}" was deleted`,
+            data: url
+        })
+        // Display toast notification?
+        
+    } catch (error) {
+        console.error("An error occured while deleting the link", error)
     }
 })
