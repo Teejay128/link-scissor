@@ -1,16 +1,29 @@
-document.querySelectorAll('#copyBtn').forEach((btn) => {
-    let id = btn.parentElement.parentElement.id
-    btn.addEventListener('click', () => copyLink(id))
+const container = document.querySelector('.container')
+const modal = document.querySelector('.modal')
+const modalBody = document.querySelector('.modal-body')
+const toast = document.querySelector('.toast')
+const toastBody = document.querySelector('.toast-body')
 
+
+document.querySelectorAll('#copyBtn').forEach((btn) => {
+    btn.addEventListener('click', () => copyLink(btn))
 })
 
 document.querySelectorAll('#delBtn').forEach((btn) => {
-    let element = btn.parentElement.parentElement
-    btn.addEventListener('click', () => deleteLink(element))
+    btn.addEventListener('click', () => deleteLink(btn))
 })
 
-function copyLink(id) {
-    // Function to copy the link to clipboard
+document.querySelectorAll('#qrBtn').forEach((btn) => {
+    btn.addEventListener('click', () => showModal(btn))
+})
+
+document.querySelectorAll('.btn-close').forEach((btn) => {
+    btn.addEventListener('click', () => console.log("Closed"))
+})
+
+function copyLink(btn) {
+    const id = btn.parentElement.parentElement.id
+
     const url = `https://scissor/${id}`
     navigator.clipboard.writeText(url)
     .then(() => {
@@ -23,9 +36,10 @@ function copyLink(id) {
 
 }
 
-function deleteLink(element) {
-    // Function to delete the link from the site and the database
+function deleteLink(btn) {
+    const element = btn.parentElement.parentElement
     const id = element.id
+
     fetch(`/${id}`, { method: "DELETE" })
     .then((response) => {
         // Handle the response as a toast notification
@@ -39,40 +53,23 @@ function deleteLink(element) {
 }
 
 
-// Come back to this after you have connected with an api for qrcode generation
-function showQRCode() {
-    // Display modal for qrCode
-    document.querySelectorAll('#qrBtn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            console.log(btn.parentElement.parentElement.id)
-            console.log("QR code should display now")
-        })
-    })
+function showModal(btn) {
+    const qrData = btn.src
 
-    // <div class="modal">
-    //     <div class="modal-dialog" role="document">
-    //         <div class="modal-content">
-    //             <div class="modal-header">
-    //                 <h5 class="modal-title">Your QR Code</h5>
-    //                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-    //                     <span aria-hidden="true"></span>
-    //                 </button>
-    //             </div>
-    //                 <div class="modal-body">
-    //                 <p>Big image of qr code goes here <p>
-    //             </div>
-    //             <div class="modal-footer">
-    //                 <button type="button" class="btn btn-primary">Save Image</button>
-    //                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
+    modal.style.display = 'block'
+    container.style.display = 'none'
+    modalBody.innerHTML = `
+        <img src="${qrData}" alt="This is the QR Code for your link" class="img-fluid w-100 h-100">
+    `
+    // console.log(qrData)
+
+}
+
+function closeModal() {
+
 }
 
 const showToast = (msg) => {
-    const toast = document.querySelector('.toast')
-    const toastBody = document.querySelector('.toast-body')
     toast.style.display = "block"
     toastBody.textContent = msg
 
@@ -80,6 +77,5 @@ const showToast = (msg) => {
         toast.style.display = "none"
         toastBody.textContent =""
     }, 3000)
-    console.log("toasted")
     // Show toast notification for basic actions
 }

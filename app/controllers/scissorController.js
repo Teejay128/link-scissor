@@ -1,7 +1,7 @@
-const { urlencoded } = require('express')
+const QRCode = require('qrcode')
+const shortid = require('shortid')
 const ShortUrl = require('../models/shortUrlModel')
 const catchAsync = require('../utils/catchAsync')
-const shortid = require('shortid')
 
 exports.scissorLink = catchAsync(async (req, res) => {
     try {
@@ -22,6 +22,7 @@ exports.newScissor = catchAsync(async (req, res) => {
         }
 
         const shortUrl = `scissor/${urlCode}`
+        const qrCode = await QRCode.toDataURL(shortUrl)
 
         const check = await ShortUrl.find({ urlCode })
         if(check.length != 0){
@@ -35,7 +36,8 @@ exports.newScissor = catchAsync(async (req, res) => {
         const newScissor = await ShortUrl.create({
             longUrl,
             shortUrl,
-            urlCode
+            urlCode,
+            qrCode
         })
         // console.log(newScissor)
         return res.redirect('/')
@@ -50,7 +52,7 @@ exports.clickScissor = catchAsync(async (req, res) => {
         const url = await ShortUrl.findOne({ urlCode })
         if(!url) {
             // Also throw an error stuff
-            return res.redirect('/scissor')
+            return res.redirect('/')
         }
 
         url.clicks++
