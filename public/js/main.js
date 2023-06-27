@@ -24,7 +24,7 @@ document.querySelectorAll('.btn-close').forEach((btn) => {
 function copyLink(btn) {
     const id = btn.parentElement.parentElement.id
 
-    const url = `https://scissor/${id}`
+    const url = `${location}${id}`
     navigator.clipboard.writeText(url)
     .then(() => {
         showToast(`"${url}" was copied to clipboard`)
@@ -69,7 +69,7 @@ function closeModal() {
 
 }
 
-const showToast = (msg) => {
+function showToast(msg) {
     toast.style.display = "block"
     toastBody.textContent = msg
 

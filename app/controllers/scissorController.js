@@ -2,6 +2,8 @@ const QRCode = require('qrcode')
 const shortid = require('shortid')
 const ShortUrl = require('../models/shortUrlModel')
 const catchAsync = require('../utils/catchAsync')
+require('dotenv').config()
+const API_URL = process.env.API_URL
 
 exports.scissorLink = catchAsync(async (req, res) => {
     try {
@@ -21,7 +23,7 @@ exports.newScissor = catchAsync(async (req, res) => {
             urlCode = shortid.generate()
         }
 
-        const shortUrl = `scissor/${urlCode}`
+        const shortUrl = `${API_URL}/${urlCode}`
         const qrCode = await QRCode.toDataURL(shortUrl)
 
         const check = await ShortUrl.find({ urlCode })
