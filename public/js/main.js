@@ -17,9 +17,7 @@ document.querySelectorAll('#qrBtn').forEach((btn) => {
     btn.addEventListener('click', () => showModal(btn))
 })
 
-document.querySelectorAll('.btn-close').forEach((btn) => {
-    btn.addEventListener('click', () => console.log("Closed"))
-})
+document.querySelector('.btn-close').addEventListener('click', hideModal)
 
 function copyLink(btn) {
     const id = btn.parentElement.parentElement.id
@@ -65,8 +63,10 @@ function showModal(btn) {
 
 }
 
-function closeModal() {
-
+function hideModal() {
+    modal.style.display = 'none'
+    container.style.display = 'block'
+    modalBody.innerHTML = ""
 }
 
 function showToast(msg) {
