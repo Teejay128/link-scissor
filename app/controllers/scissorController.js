@@ -5,7 +5,7 @@ const catchAsync = require('../utils/catchAsync')
 require('dotenv').config()
 const API_URL = process.env.API_URL
 
-exports.scissorLink = catchAsync(async (req, res) => {
+exports.getScissorPage = catchAsync(async (req, res) => {
     try {
         const urls = await ShortUrl.find({})
         res.render('index', { urls: urls })

@@ -12,7 +12,7 @@ const limiter = rateLimit({
 router
     .use(limiter)
     .route('/')
-    .get(scissorController.scissorLink)
+    .get(scissorController.getScissorPage)
     .post(scissorController.newScissor)
 
 router
