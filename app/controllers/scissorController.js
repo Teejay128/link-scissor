@@ -5,10 +5,16 @@ const catchAsync = require('../utils/catchAsync')
 require('dotenv').config()
 const API_URL = process.env.API_URL
 
+// refactor the entire codebase so that it is an API that returns values, rather than render pages
+
 exports.getScissorPage = catchAsync(async (req, res) => {
     try {
         const urls = await ShortUrl.find({})
-        res.render('index', { urls: urls })
+        return res.json({
+            msg: "All the shortened urls",
+            data: urls
+        })
+        // res.render('index', { urls: urls })
     } catch (error) {
         console.error("An error occured while fetching urls:", error)
     }
@@ -29,7 +35,6 @@ exports.newScissor = catchAsync(async (req, res) => {
         const check = await ShortUrl.find({ urlCode })
         if(check.length != 0){
             return res.json({
-                status: "error",
                 msg: "that custom url already exists",
                 data: check
             })
@@ -41,8 +46,13 @@ exports.newScissor = catchAsync(async (req, res) => {
             urlCode,
             qrCode
         })
-        // console.log(newScissor)
-        return res.redirect('/')
+
+        return res.json({
+            msg: "New scissor created",
+            data: newScissor
+        })
+
+        // return res.redirect('/')
     } catch (error) {
         console.error("An error occured while shortening url:", error)
     }
@@ -60,7 +70,12 @@ exports.clickScissor = catchAsync(async (req, res) => {
         url.clicks++
         url.save()
 
-        res.redirect(url.longUrl)
+        return res.json({
+            msg: `${url.urlCode} was clicked, redirecting to ${url.longUrl}`,
+            data: url
+        })
+
+        // res.redirect(url.longUrl)
     } catch (error) {
         console.error("An error occured while updating clicks", error)
     }
@@ -74,8 +89,7 @@ exports.deleteScissor = catchAsync(async (req, res) => {
 
         // return res.redirect('/')
         return res.json({
-            status: "Success",
-            msg: `Url with code "${urlCode}" was deleted`,
+            msg: `Url with code ${urlCode} was deleted`,
             data: url
         })
         // Display toast notification?
