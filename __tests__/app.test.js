@@ -6,6 +6,15 @@ const app = require('../app/index')
 // Scissor router API tests 
 describe("testing the various scissoring functionality", () => {
 
+    // beforeAll
+    // afterAll
+    // beforeEach
+    // afterEach
+    
+    beforeAll(async () => {
+        await clearDatabase()
+    })
+
     it("should return something random if custom code is not given", () => {
 
     })
@@ -16,14 +25,13 @@ describe("testing the various scissoring functionality", () => {
 
     it("should create a new scissor with the right properties", async () => {
         const response = await request(app).post("/").send({
-            longUrl
-            customCode
+            longUrl: "https://github.blog/2021-08-23-npm-registry-deprecating-tls-1-0-tls-1-1/",
+            customCode: "npmReg"
         })
     })
 
     it("should increase the number of clicks of the scissor", async () => {
         // Create a new scissor
-        const response 
 
         // Then access the scissor
 
