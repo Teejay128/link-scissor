@@ -1,15 +1,14 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-const MONGODB_URL = process.env.MONGODB_URL
 const databaseOptions = {
     useNewURLParser: true,
     useUnifiedTopology: true,
 }
 
-const dbConnect = async () => {
+const dbConnect = async (databaseURL) => {
     try {
-        await mongoose.connect(MONGODB_URL, databaseOptions)
+        await mongoose.connect(databaseURL, databaseOptions)
         console.log("Connected to database...")
     } catch (error) {
         console.error("Error connecting to MongoDB:", error)

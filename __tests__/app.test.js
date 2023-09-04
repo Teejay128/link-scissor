@@ -1,44 +1,45 @@
-const supertest = require('supertest')
-const shortUrlModel = require('../app/models/shortUrlModel')
+const shortUrl = require('../app/models/shortUrlModel')
 const app = require('../app/index')
+const dbConnect = require('../utils/database')
 
+const testURL = "mongodb://localhost:27017/linkScissor_test"
+
+dbConnect(testURL)
 
 // Scissor router API tests 
-describe("testing the various scissoring functionality", () => {
+describe("tests for scissor functionality", () => {
 
-    // beforeAll
-    // afterAll
-    // beforeEach
-    // afterEach
-    
     beforeAll(async () => {
-        await clearDatabase()
-    })
-
-    it("should return something random if custom code is not given", () => {
-
-    })
-
-    it("should generate a qrcode with valid properties", () => {
-
-    })
-
-    it("should create a new scissor with the right properties", async () => {
-        const response = await request(app).post("/").send({
-            longUrl: "https://github.blog/2021-08-23-npm-registry-deprecating-tls-1-0-tls-1-1/",
-            customCode: "npmReg"
+        await shortUrl.create({
+            
         })
+        // Add a couple of shortUrls to the database
     })
 
-    it("should increase the number of clicks of the scissor", async () => {
-        // Create a new scissor
 
-        // Then access the scissor
-
-        // Then check if the number of clicks increased
+    describe("requesting for all available scissors", () => {
+        // All the added shortUrls should reflect in the database
+        // The number returned must be equal to the number of links
+        // Should also test for like 2 of the available links
     })
 
-    it("should remove a scissored link", () => {
+    describe("creating a new scissor", () => {
+        // Random url code if customCode is not provided
+        // A test block for qrCode and its details
+        // Return error if urlCode already exists
+        // Create newScissor with the right details
+    })
 
+    describe("clicking on a scissor", () => {
+        // number of clicks should increase by 1
+    })
+
+    describe("deleting a scissor", () => {
+        // The particular link should not be found in the database
+    })
+
+
+    afterAll(async () => {
+        // Clear the test database
     })
 }) 
