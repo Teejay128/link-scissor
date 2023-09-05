@@ -6,7 +6,7 @@ const databaseOptions = {
     useUnifiedTopology: true,
 }
 
-const dbConnect = async (databaseURL) => {
+const connect = async (databaseURL) => {
     try {
         await mongoose.connect(databaseURL, databaseOptions)
         console.log("Connected to database...")
@@ -15,4 +15,16 @@ const dbConnect = async (databaseURL) => {
     }
 }
 
-module.exports = dbConnect
+const disconnect = async (databaseURL) => {
+    try {
+        await mongoose.disconnect()
+        console.log("Disconnected successfully")
+    } catch (error) {
+        console.error("Error disconnecting", error)
+    }
+}
+
+module.exports = {
+    connect,
+    disconnect
+}
