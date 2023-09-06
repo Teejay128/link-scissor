@@ -1,12 +1,16 @@
+jest.useFakeTimers()
+
+
 const ShortUrl = require("../app/models/shortUrlModel");
 const app = require("../app/index");
+const sum = require("../sum");
 const db = require("../utils/database");
 
 const testURL = "mongodb://localhost:27017/linkScissor_test";
 
 // Scissor router API tests
 describe("tests for scissor functionality", () => {
-  beforeAll(async () => {
+  beforeAll(() => {
     db.connect(testURL);
 
     ShortUrl.insertMany([
@@ -25,9 +29,14 @@ describe("tests for scissor functionality", () => {
     ]);
   });
 
+  describe("learning how to test", () => {
+    test("adds 1 + 2 to equal 3", () => {
+      expect(sum(1, 2)).toBe(3);
+    });
+  });
+
   describe("requesting for all available scissors", () => {
     // All the added shortUrls should reflect in the database
-    const response = 
     // The number returned must be equal to the number of links
     // Should also test for like 2 of the available links
   });
@@ -47,7 +56,7 @@ describe("tests for scissor functionality", () => {
     // The particular link should not be found in the database
   });
 
-  afterAll(async () => {
+  afterAll(() => {
     // Clear the test database
     ShortUrl.find({})
       .then((res) => console.log(res))
