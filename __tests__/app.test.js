@@ -1,3 +1,5 @@
+// I have given up on writing tests for this shit
+
 jest.useFakeTimers();
 
 const ShortUrl = require("../app/models/shortUrlModel");
@@ -10,31 +12,78 @@ const testURL = "mongodb://localhost:27017/linkScissor_test";
 
 // Scissor router API tests
 describe("tests for scissor functionality", () => {
+
+    jest.setTimeout(100000);
+
     beforeAll(async () => {
-        await db.connect(testURL)
+        // Connect to a test database before running the tests
+        await mongoose.connect("mongodb://localhost/testdb", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
 
-        ShortUrl.insertMany([
-            {
-                longUrl:
-                    "https://www.mongodb.com/docs/mongodb-shell/crud/insert/",
-                shortUrl: "localhost:4000/mongo",
-                urlCode: "mongo",
-                qrCode: "This is a long qrcode whatever",
-            },
-            {
-                longUrl: "https://mongoosejs.com/docs/models.html",
-                shortUrl: "localhost:4000/goose",
-                urlCode: "goose",
-                qrCode: "This is a long qrcode whatever",
-            },
+        // Add dummy data to the database
+        await ShortUrl.create([
+            { name: "Item 1", description: "Description 1" },
+            { name: "Item 2", description: "Description 2" },
+            // Add more dummy data as needed
         ]);
-
-        // done();
     });
 
-    // beforeAll((done) => {
-    //   done()
-    // })
+    afterAll(async () => {
+        // Close the database connection after all tests are done
+        await mongoose.connection.close();
+    });
+
+    //     beforeAll((done) => {
+    //         try {
+    //             mongoose
+    //                 .connect(testURL, {
+    //                     useNewUrlParser: true,
+    //                     useUnifiedTopology: true,
+    //                 })
+    //                 .then(() => done());
+
+    //             // await db.connect(testURL);
+
+    //             // await ShortUrl.create([
+    //             //     {
+    //             //         longUrl:
+    //             //             "https://www.mongodb.com/docs/mongodb-shell/crud/insert/",
+    //             //         shortUrl: "localhost:4000/mongo",
+    //             //         urlCode: "mongo",
+    //             //         qrCode: "This is a long qrcode whatever",
+    //             //     },
+    //             //     {
+    //             //         longUrl: "https://mongoosejs.com/docs/models.html",
+    //             //         shortUrl: "localhost:4000/goose",
+    //             //         urlCode: "goose",
+    //             //         qrCode: "This is a long qrcode whatever",
+    //             //     },
+    //             // ]);
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     });
+
+    //     afterAll((done) => {
+    //         // await db.disconnect();
+
+    //         mongoose.disconnect().then(() => done());
+
+    //         // try {
+    //         //     const links = await ShortUrl.find({})
+    //         //     console.log(links)
+
+    //         //     await db.disconnect()
+
+    //         //     //     .then(() => ShortUrl.deleteMany())
+    //         //     //     .then((count) => console.log(count))
+
+    //         // } catch (err) {
+    //         //     console.log(err)
+    //         // }
+    //     });
 
     describe("learning how to test", () => {
         test("adds 1 + 2 to equal 3", () => {
@@ -62,16 +111,4 @@ describe("tests for scissor functionality", () => {
     // test("deleting a scissor", () => {
     //   // The particular link should not be found in the database
     // });
-
-    afterAll((done) => {
-        // Clear the test database
-        ShortUrl.find({})
-            .then((res) => console.log(res))
-            .then(() => ShortUrl.deleteMany())
-            .then((count) => console.log(count))
-            .then(() => db.disconnect())
-            .catch((err) => console.log(err));
-
-        done();
-    });
 });

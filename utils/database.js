@@ -9,7 +9,7 @@ const databaseOptions = {
 const connect = async (databaseURL) => {
     try {
         await mongoose.connect(databaseURL, databaseOptions)
-        console.log("Connected to database...")
+        // console.log("Connected to database...")
     } catch (error) {
         console.error("Error connecting to MongoDB:", error)
     }
@@ -17,7 +17,7 @@ const connect = async (databaseURL) => {
 
 const disconnect = async (databaseURL) => {
     try {
-        await mongoose.disconnect()
+        await mongoose.connection.close()
         console.log("Disconnected successfully")
     } catch (error) {
         console.error("Error disconnecting", error)
