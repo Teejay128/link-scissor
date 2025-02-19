@@ -12,37 +12,34 @@ To setup link scissor locally on your computer, carry out the following steps:
 
 Run this command in a terminal in VS Code
 
-``` git
+```git
 git clone https://github.com/Teejay128/link-scissor.git
 ```
 
-This creates a local version of the codebase on your machine
-2. Install Dependencies:
+This creates a local version of the codebase on your machine 2. Install Dependencies:
 
 Run this command in the root project directory
 
-``` git
+```git
 npm install
 ```
 
-This installs all the necessary dependencies and packages
-3. Set Environmental Variables
+This installs all the necessary dependencies and packages 3. Set Environmental Variables
 
 Create a `.env` file with the following variables
 
-``` env
+```env
 # Development
 PORT=<port number (4000)>
 API_URL=<application link (localhost:<PORT>)
 MONGODB_URL=<mongodb database url>
 ```
 
-This creates environmental variables for the application
-4. Start Application
+This creates environmental variables for the application 4. Start Application
 
 Run this command in the terminal
 
-``` git
+```git
 npm start
 ```
 
@@ -61,13 +58,13 @@ Read the full [documentation](https://aribadawulo.hashnode.dev/link-scissor-docu
 
 ## Key Features
 
-- Customization:
+-   Customization:
     Users can customize their url codes, rather than having a random code generated. For instance, you could use the code `myrsm` to store a link to your resume.
-- Cloud stored:
+-   Cloud stored:
     Your links are stored on the cloud, allowing you to access them from any device with an internet connection.
-- Clicks:
+-   Clicks:
     Clicks to your link are monitored and are reflected in the clicks field of the link history table.
-- QR Code:
+-   QR Code:
     Each link gets a unique QR Code that allows easier access just by scanning.
 
 ## Technologies

@@ -12,11 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", scissorRouter);
-
 // app.get("/image/qrCode", (req, res) => {
 // 	const qrCode = require("qrcode");
 
-// 	qrCode.toDataURL("Gechi, Go to Sleep", (err, url) => {
+// 	qrCode.toDataURL("Tomi Get Back to your Books", (err, url) => {
 // 		res.send(`<img src=${url}>`);
 // 	});
 // });

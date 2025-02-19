@@ -1,7 +1,9 @@
 const QRCode = require("qrcode");
 const shortid = require("shortid");
+
 const ShortUrl = require("../models/shortUrlModel");
 const catchAsync = require("../utils/catchAsync");
+const { pageInfo } = require("./scrapingController");
 require("dotenv").config();
 const API_URL = process.env.API_URL;
 
@@ -22,6 +24,8 @@ exports.getScissorPage = catchAsync(async (req, res) => {
 exports.newScissor = catchAsync(async (req, res) => {
 	try {
 		const { longUrl, customCode } = req.body;
+		const description = await pageInfo(longUrl); //
+
 		if (customCode) {
 			urlCode = customCode;
 		} else {
@@ -44,6 +48,7 @@ exports.newScissor = catchAsync(async (req, res) => {
 			shortUrl,
 			urlCode,
 			qrCode,
+			description,
 		});
 
 		return res.json({
