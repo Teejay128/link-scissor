@@ -22,7 +22,8 @@
 		"puppeteer": "^24.2.1",
 		"qrcode": "^1.5.3",
 		"shortid": "^2.2.16",
-		"valid-url": "^1.0.9"
+		"valid-url": "^1.0.9",
+		"youtube-transcript": "^1.2.1"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.22"

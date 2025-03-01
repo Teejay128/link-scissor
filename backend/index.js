@@ -12,13 +12,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", scissorRouter);
-// app.get("/image/qrCode", (req, res) => {
-// 	const qrCode = require("qrcode");
-
-// 	qrCode.toDataURL("Tomi Get Back to your Books", (err, url) => {
-// 		res.send(`<img src=${url}>`);
-// 	});
-// });
 
 app.get("*", (req, res) => {
 	res.status(404).send(

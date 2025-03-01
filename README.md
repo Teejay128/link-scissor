@@ -86,3 +86,11 @@ Bootstrap for simple styling
 This project is still a work in progress, with a list of additional features to be added. Feel free to raise an issue, or make a pull request of your contribution.
 
 Thanks for Visiting, Leave A Star :heart
+
+### Features
+
+The main purpose is for data gathering and what not
+
+-   Link Scissor - Link Scraping
+-   Youtube Scraper
+-   Material (PDF) parser

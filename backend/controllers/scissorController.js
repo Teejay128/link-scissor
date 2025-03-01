@@ -1,17 +1,18 @@
 const QRCode = require("qrcode");
 const shortid = require("shortid");
 
-const ShortUrl = require("../models/shortUrlModel");
+const Scissor = require("../models/ScissorModel");
 const catchAsync = require("../utils/catchAsync");
-const { pageInfo } = require("./scrapingController");
+const {
+	processWebpage,
+	processYoutube,
+	processDocument,
+} = require("../services/processor");
 require("dotenv").config();
-const API_URL = process.env.API_URL;
-
-// refactor the entire codebase so that it is an API that returns values, rather than render pages
 
 exports.getScissorPage = catchAsync(async (req, res) => {
 	try {
-		const urls = await ShortUrl.find({});
+		const urls = await Scissor.find({});
 		return res.json({
 			msg: "All the shortened urls",
 			data: urls,
@@ -23,8 +24,7 @@ exports.getScissorPage = catchAsync(async (req, res) => {
 
 exports.newScissor = catchAsync(async (req, res) => {
 	try {
-		const { longUrl, customCode } = req.body;
-		const description = await pageInfo(longUrl); //
+		const { longUrl, customCode, type } = req.body;
 
 		if (customCode) {
 			urlCode = customCode;
@@ -32,24 +32,35 @@ exports.newScissor = catchAsync(async (req, res) => {
 			urlCode = shortid.generate();
 		}
 
-		const check = await ShortUrl.find({ urlCode });
+		const check = await Scissor.find({ urlCode });
 		if (check.length != 0) {
 			return res.json({
-				msg: "that custom url already exists",
+				msg: "That custom url already exists",
 				data: check,
 			});
 		}
 
-		const shortUrl = `${API_URL}/${urlCode}`;
+		const shortUrl = `${process.env.API_URL}/${urlCode}`;
 		const qrCode = await QRCode.toDataURL(shortUrl);
 
-		const newScissor = await ShortUrl.create({
+		const newScissor = await Scissor.create({
 			longUrl,
 			shortUrl,
+			type,
 			urlCode,
 			qrCode,
-			description,
+			// These fields will be added later
+			// summary,
+			// rawText
 		});
+
+		if (type == "webpage") {
+			processWebpage(longUrl);
+		} else if (type == "youtube") {
+			processYoutube(longUrl);
+		} else if (type == "document") {
+			processDocument(longUrl);
+		}
 
 		return res.json({
 			msg: "New scissor created",
@@ -63,7 +74,7 @@ exports.newScissor = catchAsync(async (req, res) => {
 exports.clickScissor = catchAsync(async (req, res) => {
 	try {
 		const urlCode = req.params.urlCode;
-		const url = await ShortUrl.findOne({ urlCode });
+		const url = await Scissor.findOne({ urlCode });
 		if (!url) {
 			console.log("An error occured, please try again.");
 			return res.redirect("/");
@@ -84,7 +95,7 @@ exports.clickScissor = catchAsync(async (req, res) => {
 exports.deleteScissor = catchAsync(async (req, res) => {
 	try {
 		const urlCode = req.params.urlCode;
-		const url = await ShortUrl.findOneAndDelete({ urlCode });
+		const url = await Scissor.findOneAndDelete({ urlCode });
 
 		return res.json({
 			msg: `Url with code ${urlCode} was deleted`,
