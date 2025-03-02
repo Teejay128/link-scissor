@@ -1,8 +1,8 @@
 const puppeteer = require("puppeteer");
 const { YoutubeTranscript } = require("youtube-transcript");
-const { getPageInfo, getVideoSummary } = require("./langchain");
+// const { getPageInfo, getVideoSummary } = require("./genAi");
 
-const scraper = async (url) => {
+const pageScraper = async (url) => {
 	try {
 		const browser = await puppeteer.launch();
 		const page = await browser.newPage();
@@ -24,41 +24,30 @@ const scraper = async (url) => {
 		});
 
 		await page.goto(url);
-		const content = await page.content();
+		const pageContent = await page.content();
 		await browser.close();
 
-		const pageInfo = await getPageInfo(content);
-		return pageInfo;
+		return pageContent;
 	} catch (err) {
 		console.log("An error occured: ", err);
 		return "An error occured";
 	}
 };
 
-const youTrans = async (url) => {
+const youtubeTranscript = async (url) => {
 	try {
-		const videoTranscript = await YoutubeTranscript.fetchTranscript(link);
+		const videoTranscript = await YoutubeTranscript.fetchTranscript(url);
 		const transcriptText = videoTranscript.map((block) => block.text);
 		const transcript = transcriptText.join(" ");
 
-		const videoSummary = await getVideoSummary(transcript);
-		return videoSummary;
+		return transcript;
 	} catch (err) {
 		console.log("An error occured: ", err);
 		return "An error occured";
 	}
 };
 
-const qrCode = async (text) => {
-	const qrCode = require("qrcode");
-
-	qrCode.toDataURL("text", (err, url) => {
-		res.send(`<img src=${url}>`);
-	});
-};
-
 module.exports = {
-	scraper,
-	youTrans,
-	qrCode,
+	pageScraper,
+	youtubeTranscript,
 };

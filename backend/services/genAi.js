@@ -6,12 +6,11 @@ const model = new ChatGoogleGenerativeAI({
 	modelName: "gemini-1.5-flash",
 	apikey: process.env.GOOGLE_API_KEY,
 });
-
 const parser = new StringOutputParser();
 
 const getPageInfo = async (pageHTML) => {
 	const prompt =
-		"I will provide you with the HTMl code for a website, and you only need to reply with a brief summary of the contents of the webpage.";
+		"This is the HTML code for a website that contains some important bits of information. I need you to provide a brief summary of it's contents, without mentioning anything about HTML code.";
 
 	const result = await model.invoke(prompt + pageHTML);
 	const text = await parser.invoke(result);
@@ -20,7 +19,8 @@ const getPageInfo = async (pageHTML) => {
 
 const getVideoSummary = async (transcript) => {
 	const prompt =
-		"Generate a descriptive summary of this youtube video from the transcript:";
+		"This is the transcript I extracted from a youtube video, I need you to generate a descriptive summary of it's content, without mentioning that you are getting it from a YouTube Video Transcript";
+
 	const result = await model.invoke(prompt + transcript);
 	const text = await parser.invoke(result);
 

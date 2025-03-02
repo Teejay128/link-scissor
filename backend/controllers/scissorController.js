@@ -1,13 +1,11 @@
-const QRCode = require("qrcode");
 const shortid = require("shortid");
+const qrGen = require("qrcode");
 
 const Scissor = require("../models/ScissorModel");
 const catchAsync = require("../utils/catchAsync");
-const {
-	processWebpage,
-	processYoutube,
-	processDocument,
-} = require("../services/processor");
+const { pageScraper, youtubeTranscript } = require("../services/tools");
+const { getPageInfo, getVideoSummary } = require("../services/genAi");
+const { scriptInjector } = require("puppeteer");
 require("dotenv").config();
 
 exports.getScissorPage = catchAsync(async (req, res) => {
@@ -41,7 +39,7 @@ exports.newScissor = catchAsync(async (req, res) => {
 		}
 
 		const shortUrl = `${process.env.API_URL}/${urlCode}`;
-		const qrCode = await QRCode.toDataURL(shortUrl);
+		const qrCode = await qrGen.toDataURL(shortUrl);
 
 		const newScissor = await Scissor.create({
 			longUrl,
@@ -49,18 +47,25 @@ exports.newScissor = catchAsync(async (req, res) => {
 			type,
 			urlCode,
 			qrCode,
-			// These fields will be added later
-			// summary,
-			// rawText
 		});
 
+		let summary;
+		let rawText;
 		if (type == "webpage") {
-			processWebpage(longUrl);
+			rawText = await pageScraper(longUrl);
+			summary = await getPageInfo(rawText);
 		} else if (type == "youtube") {
-			processYoutube(longUrl);
+			rawText = await youtubeTranscript(longUrl);
+			summary = await getVideoSummary(rawText);
 		} else if (type == "document") {
-			processDocument(longUrl);
+			// Coming soon...
 		}
+
+		Scissor.findByIdAndUpdate(newScissor._id, { summary, rawText }).then(
+			() => {
+				console.log("Added summary and rawText");
+			}
+		);
 
 		return res.json({
 			msg: "New scissor created",
