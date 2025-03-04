@@ -19,7 +19,7 @@ const getPageInfo = async (pageHTML) => {
 
 const getVideoSummary = async (transcript) => {
 	const prompt =
-		"This is the transcript I extracted from a youtube video, I need you to generate a descriptive summary of it's content, without mentioning that you are getting it from a YouTube Video Transcript";
+		"This is the transcript I extracted from a youtube video, I need you to generate a brief summary of it's content, without mentioning that you are getting it from a YouTube Video Transcript";
 
 	const result = await model.invoke(prompt + transcript);
 	const text = await parser.invoke(result);

@@ -9,7 +9,7 @@ router
 
 router
 	.route("/:urlCode")
-	.get(scissorController.clickScissor)
+	.get(scissorController.getScissor)
 	.delete(scissorController.deleteScissor);
 
 module.exports = router;

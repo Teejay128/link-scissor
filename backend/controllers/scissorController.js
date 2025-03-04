@@ -5,18 +5,36 @@ const Scissor = require("../models/ScissorModel");
 const catchAsync = require("../utils/catchAsync");
 const { pageScraper, youtubeTranscript } = require("../services/tools");
 const { getPageInfo, getVideoSummary } = require("../services/genAi");
-const { scriptInjector } = require("puppeteer");
 require("dotenv").config();
 
 exports.getScissorPage = catchAsync(async (req, res) => {
 	try {
 		const urls = await Scissor.find({});
+		const data = urls.map(
+			({
+				longUrl,
+				shortUrl,
+				type,
+				urlCode,
+				qrCode,
+				summary,
+				createdAt,
+			}) => ({
+				longUrl,
+				shortUrl,
+				type,
+				urlCode,
+				qrCode,
+				summary,
+				createdAt,
+			})
+		);
 		return res.json({
-			msg: "All the shortened urls",
-			data: urls,
+			msg: "All available scissors",
+			data,
 		});
 	} catch (error) {
-		console.error("An error occured while fetching urls:", error);
+		console.error("An error occured while fetching scissors:", error);
 	}
 });
 
@@ -33,7 +51,7 @@ exports.newScissor = catchAsync(async (req, res) => {
 		const check = await Scissor.find({ urlCode });
 		if (check.length != 0) {
 			return res.json({
-				msg: "That custom url already exists",
+				msg: "Please a different url Code",
 				data: check,
 			});
 		}
@@ -72,16 +90,18 @@ exports.newScissor = catchAsync(async (req, res) => {
 			data: newScissor,
 		});
 	} catch (error) {
-		console.error("An error occured while shortening url:", error);
+		console.error("An error occured while creating the scissor:", error);
 	}
 });
 
-exports.clickScissor = catchAsync(async (req, res) => {
+exports.getScissor = catchAsync(async (req, res) => {
 	try {
 		const urlCode = req.params.urlCode;
 		const url = await Scissor.findOne({ urlCode });
 		if (!url) {
-			console.log("An error occured, please try again.");
+			console.log(
+				"The requested scissor was not found, please try again."
+			);
 			return res.redirect("/");
 		}
 
@@ -93,7 +113,7 @@ exports.clickScissor = catchAsync(async (req, res) => {
 			data: url,
 		});
 	} catch (error) {
-		console.error("An error occured while updating clicks", error);
+		console.error("An error occured while fetching scissor", error);
 	}
 });
 
@@ -103,10 +123,10 @@ exports.deleteScissor = catchAsync(async (req, res) => {
 		const url = await Scissor.findOneAndDelete({ urlCode });
 
 		return res.json({
-			msg: `Url with code ${urlCode} was deleted`,
+			msg: `Scissor with code "${urlCode}" was deleted`,
 			data: url,
 		});
 	} catch (error) {
-		console.error("An error occured while deleting the link", error);
+		console.error("An error occured while deleting the scissor:", error);
 	}
 });

@@ -11,7 +11,7 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/scissor", scissorRouter);
+app.use("/", scissorRouter);
 
 app.get("*", (req, res) => {
 	res.status(404).send(
