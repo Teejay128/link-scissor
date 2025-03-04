@@ -1,7 +1,7 @@
 const shortid = require("shortid");
 const qrGen = require("qrcode");
 
-const Scissor = require("../models/ScissorModel");
+const Scissor = require("../models/scissorModel");
 const catchAsync = require("../utils/catchAsync");
 const { pageScraper, youtubeTranscript } = require("../services/tools");
 const { getPageInfo, getVideoSummary } = require("../services/genAi");
